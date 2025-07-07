@@ -2,20 +2,19 @@ class Solution {
   public:
     int missingNum(vector<int>& arr) {
         // code here
-        long l = arr.size();
-        long n = l + 1;
+        long long n = arr.size();
+        long long currSum = 0;
         
-        long sum = n*(n+1)/2;
-        
-        long arrSum = 0;
-        for(int i = 0; i < l; i++){
-            arrSum += arr[i];
+        //SUM OF CURRENT ARRAY
+        for(int i = 0; i < n; i++){
+            currSum += arr[i];            
         }
         
-        long element = sum - arrSum;
-        return element;
+        //SUM OF ARRAY WITH N NUMBERS FROM 1 TO N
+        long long greaterSum = (n+1)*(n+2)/2;
         
-        
+        long long ans = greaterSum - currSum;
+        return ans;
         
     }
 };
