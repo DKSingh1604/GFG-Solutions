@@ -10,21 +10,27 @@ struct Node
 // Class Solution
 class Solution {
   public:
-      int countLeaf(Node* root){
-          if(root == NULL){
-              return 0;
-          }
-          
-          if(root -> left == NULL && root -> right == NULL){
-              return 1;
-          }
-          
-          return countLeaf(root -> left) + countLeaf(root -> right);
-      }
-    
+    // Function to count the number of leaf nodes in a binary tree.
+    void inOrderTraversal(Node* root, int &count){
+        
+        if(root == NULL){
+            return;
+        }
+        
+        inOrderTraversal(root -> left, count);
+        
+        if(root -> left == NULL && root -> right == NULL){
+            count++;
+        }
+        inOrderTraversal(root -> right, count);
+    }
     int countLeaves(Node* root) {
         // write code here
-        return countLeaf(root);
+        
+        int count = 0;
+        inOrderTraversal(root, count);
+        
+        return count;
         
     }
 };
