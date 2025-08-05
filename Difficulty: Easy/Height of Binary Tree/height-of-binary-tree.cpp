@@ -15,13 +15,17 @@ class Solution {
   public:
     int height(Node* node) {
         // code here
-        if(!node){
+        
+        if(node == NULL){
             return -1;
         }
         
         int left = height(node -> left);
         int right = height(node -> right);
         
-        return 1 + max(left, right);
+        
+        int ans = max(left, right);
+        
+        return 1 + ans;
     }
 };
