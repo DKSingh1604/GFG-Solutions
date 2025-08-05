@@ -16,34 +16,23 @@ struct Node
 
 class Solution {
   public:
-    void ino(vector<int> &v, Node* r){
-        
-        if(r == NULL) return;
-        
-        ino(v, r -> left);
-        v.push_back(r -> data);
-        ino(v, r -> right);
-        
-        
-    }
     // Function to check if two trees are identical.
     bool isIdentical(Node *r1, Node *r2) {
         // Your Code here
-        vector<int> v1;
-        vector<int> v2;
+        if(!r1 && !r2) return true;
         
-        ino(v1, r1);
-        ino(v2, r2);
+        if((!r1 && r2) || (!r2 && r1)) return false;
         
-        if(v1.size() != v2.size()){
+        bool left = isIdentical(r1 -> left, r2 -> left);
+        bool right = isIdentical(r1 -> right, r2 -> right);
+        
+        bool ans = r1 -> data == r2 -> data;
+        
+        if(left && right && ans){
+            return true;
+        }
+        else{
             return false;
         }
-        
-        for(int i = 0; i < v1.size(); i++){
-            if(v1[i] != v2[i]){
-                return false;
-            }
-        }
-        return true;
     }
 };
