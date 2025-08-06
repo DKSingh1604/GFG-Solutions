@@ -15,19 +15,31 @@ struct Node
 
 class Solution {
   public:
-    void  getvec( vector<int>&ans,Node*root,int level){
-      if(!root)return;
-      if(level==ans.size()){
-          ans.push_back(root->data);
-      }
-      getvec(ans,root->left,level+1);
-      getvec(ans,root->right,level+1);
-  }
     vector<int> leftView(Node *root) {
         // code here
+        if(!root) return {};
         
-          vector<int>ans;
-          getvec(ans,root,0);
-          return ans;
+        queue<Node*> q;
+        q.push(root);
+        
+        vector<int> ans;
+        
+        while(!q.empty()){
+            int levelSize = q.size();
+            
+            for(int i = 0; i < levelSize; i++){
+                Node* node = q.front();
+                q.pop();
+                
+                if(i == 0) ans.push_back(node -> data);
+                
+                if(node -> left) q.push(node -> left);
+                if(node -> right) q.push(node -> right);
+                
+            }
+        }
+        
+        return ans;
+        
     }
 };
