@@ -1,0 +1,37 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+}; */
+
+class Solution {
+  public:
+     void solve(Node* root, vector<int> &ans, int level){
+        
+        if(!root) return;
+        
+        if(level == ans.size()){
+            ans.push_back(root -> data);
+        }
+        
+        //recursive call to left and right
+        solve(root -> right, ans, level + 1);
+        solve(root -> left, ans, level + 1);
+        
+    }
+    vector<int> rightView(Node *root) {
+        //  Code here
+        vector<int> ans;
+        solve(root, ans, 0);
+        return ans;
+        
+    }
+};
