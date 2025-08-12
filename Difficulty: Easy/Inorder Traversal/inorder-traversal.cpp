@@ -22,9 +22,30 @@ class Solution {
         
         if(root == NULL) return;
         
-        inorder(ans, root -> left);
-        ans.push_back(root -> data);
-        inorder(ans, root -> right);
+        Node* curr = root;
+        
+        while(curr){
+            if(!curr -> left){
+                ans.push_back(curr -> data);
+                curr = curr -> right;
+            }
+            else{
+                Node* prev = curr -> left;
+                while(prev -> right && prev -> right != curr){
+                    prev = prev -> right;
+                }
+                if(!prev -> right){
+                    prev -> right = curr;
+                    curr = curr -> left;
+                }
+                else{
+                    ans.push_back(curr -> data);
+                    curr = curr -> right;
+                }
+                
+            }
+        }
+        
         
         
     }
