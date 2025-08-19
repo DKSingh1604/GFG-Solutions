@@ -14,22 +14,29 @@ class Node {
 
 class Solution {
   public:
+  
+    void findInorder(Node* root, vector<int> &ans){
+        
+        if(!root) return;
+        
+        findInorder(root -> left, ans);
+        
+        ans.push_back(root -> data);
+        
+        findInorder(root -> right, ans);
+        
+    }
     bool findTarget(Node *root, int target) {
-        vector<int> container;
-        queue<Node*> q;
-        q.push(root);
-        while (!q.empty()) {
-            Node* node = q.front(); q.pop();
-            container.push_back(node -> data);
-            if (node -> left) q.push(node -> left);
-            if (node -> right) q.push(node -> right);
-        }
-        unordered_map<int, int> storage;
-        int n = (int)container.size();
-        for (int i = 0; i < n; i++) {
-            int current = container[i];
-            if (storage.find(target - current) != storage.end()) return true;
-            storage[current] = i;
+        vector<int> ans;
+        findInorder(root, ans);
+        
+        int s = 0;
+        int e = ans.size()-1;
+        
+        while(s < e){
+            if(ans[s] + ans[e] == target) return true;
+            else if(ans[s] + ans[e] > target) e--;
+            else s++;
         }
         return false;
     }
