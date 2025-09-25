@@ -1,49 +1,52 @@
 class Solution {
   public:
     int orangesRotting(vector<vector<int>>& mat) {
-        // Use BFS for calculating the min time
+        // Code here
+        
         int n = mat.size();
         int m = mat[0].size();
         
-        queue<pair<int,int>> q;
-        int fresh=0;
+        queue<pair<pair<int, int>, int>> q;
         
-        // add all rotten oranges to queue
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(mat[i][j]==2){
-                    q.push({i,j});
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(mat[i][j] == 2){
+                    q.push({{i, j}, 0});
                 }
-                else if(mat[i][j]==1)   fresh++;
             }
         }
-        if(fresh==0) return 0;
-        int time =-1;
-        //left cur right cur
-        int dx[4] = {-1,0,1,0};
-        //cur top cur down
-        int dy[4] = {0,1,0,-1};
         
-        // BFS
+        
+        int tm = 0;
+        int drow[] = {-1, 0, 1, 0};
+        int dcol[] = {0, 1, 0, -1};
         while(!q.empty()){
-            int size = q.size();
-            time ++;
-            while(size--){
-                int x = q.front().first;
-                int y = q.front().second;
-                q.pop();
-                for(int i=0;i<4;i++){
-                    int nx = x+dx[i];
-                    int ny = y+dy[i];
-                    if(nx>=0 && ny>=0 && nx<n && ny<m && mat[nx][ny] == 1){
-                        mat[nx][ny] = 2;
-                        q.push({nx,ny});
-                        fresh--;
-                    }
+            int r = q.front().first.first;
+            int c = q.front().first.second;
+            int t = q.front().second;
+            tm = max(tm, t);
+            q.pop();
+            
+            for(int i = 0; i < 4; i++){
+                int nrow = r + drow[i];
+                int ncol = c + dcol[i];
+                if(nrow >= 0 && nrow<n && ncol >= 0 && ncol < m && mat[nrow][ncol] == 1){
+                    q.push({{nrow, ncol}, t+1});
+                    mat[nrow][ncol] = 2;
+                }
+            }
+            
+        }
+        
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(mat[i][j] == 1){
+                    return -1;
                 }
             }
         }
         
-        return fresh==0? time : -1;
+        return tm;
+        
     }
 };
