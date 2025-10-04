@@ -1,55 +1,67 @@
 class Solution {
   public:
     string findOrder(vector<string> &words) {
+        // code here
         unordered_map<char, vector<char>> adj;
         vector<int> indegree(26, 0);
-        unordered_set<char> chars; // track characters that appear
-
-        // Collect all chars
-        for (auto &w : words) {
-            for (char c : w) chars.insert(c);
+        unordered_set<char> chars;
+        
+        //step1 - collect all unique characters
+        for(auto &w : words){
+            for(auto c : w){
+                chars.insert(c);
+            }
         }
-
-        // Build graph
-        for (int i = 0; i < words.size() - 1; i++) {
+        
+        //step2 - build a graph from the adjacent word pairs
+        for(int i = 0; i < words.size()-1; i++){
             string &w1 = words[i];
-            string &w2 = words[i + 1];
-
-            // Invalid case: prefix issue
-            if (w1.size() > w2.size() && w1.find(w2) == 0) {
+            string &w2 = words[i+1];
+            
+            
+            //prefix case handled
+            if(w1.size() > w2.size() && w1.find(w2) == 0){
                 return "";
             }
-
-            for (int j = 0; j < min(w1.size(), w2.size()); j++) {
-                if (w1[j] != w2[j]) {
+            
+            for(int j = 0; j < min(w1.size(), w2.size()); j++){
+                if(w1[j] != w2[j]){
                     adj[w1[j]].push_back(w2[j]);
                     indegree[w2[j] - 'a']++;
-                    break; // only first difference matters
+                    break;
                 }
             }
+            
         }
-
-        // Kahn’s Algorithm (Topological Sort)
-        queue<char> q;
-        for (char c : chars) {
-            if (indegree[c - 'a'] == 0) q.push(c);
+        
+        //applying Kahn's algorithm
+        queue<int> q;
+        for(char c : chars){
+            if(indegree[c -'a'] == 0){
+                q.push(c);
+            }
         }
-
-        string result;
-        while (!q.empty()) {
-            char c = q.front(); q.pop();
-            result.push_back(c);
-
-            for (char nei : adj[c]) {
-                if (--indegree[nei - 'a'] == 0) {
+        
+        string ans = "";
+        while(!q.empty()){
+            char node = q.front();
+            q.pop();
+            ans += node;
+            
+            for(char nei : adj[node]){
+                indegree[nei - 'a']--;
+                if(indegree[nei - 'a'] == 0){
                     q.push(nei);
                 }
             }
         }
-
-        // If result doesn't include all characters → cycle / invalid
-        if (result.size() < chars.size()) return "";
-
-        return result;
+        
+        // check if valid ordering
+        if(ans.size() < chars.size()){
+            return "";
+        }
+        return ans;
+        
+        
     }
 };
