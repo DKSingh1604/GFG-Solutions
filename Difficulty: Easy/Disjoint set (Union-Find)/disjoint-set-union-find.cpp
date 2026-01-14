@@ -1,21 +1,30 @@
+
 int find(int par[], int x) {
-    // add code here
-    if(par[x] == x){
-        return x;
-    }
     
-    int leader = find(par,par[x]);
+    //base case
+    if(x == par[x]) return x;
+    else return par[x] = find(par, par[x]);
     
-    return leader;
 }
 
 void unionSet(int par[], int x, int z) {
     // add code here.
     
-    int leader1 = find(par,x);
-    int leader2 = find(par,z);
+    int up_x = find(par, x);
+    int up_z = find(par, z);
     
-    par[leader1] = leader2;
+    // if(up_x == up_z) return;
     
+    // if(rank[up_x] < rank[up_z]){
+    //     par[up_x] = up_z;
+    // }
+    // else if(rank[up_z] < rank[up_x]){
+    //     par[up_z] = up_x;
+    // }
+    // else{
+    //     par[up_z] = up_x;
+    //     rank[up_x]++;
+    // }
+    par[up_x] = up_z;
     return;
 }
