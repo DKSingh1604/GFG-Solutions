@@ -1,21 +1,18 @@
 class Solution {
   public:
     bool checkElements(int start, int end, vector<int> &arr) {
-        // code here
-        vector<bool> present(100001, false);
-
-        for (int num : arr) {
-            present[num] = true;
+        
+        unordered_set<int> s;
+        
+        for(int i = 0; i < arr.size(); i++){
+            s.insert(arr[i]);
         }
-
-        for (int i = start; i <= end; ++i) {
-            if (!present[i]) {
-               
+        
+        for(int i = start; i <= end; i++){
+            if(s.find(i) == s.end()){
                 return false;
             }
         }
-
-        
         return true;
     }
 };
