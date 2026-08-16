@@ -8,14 +8,13 @@ class Solution {
         int high = n-1;
         
         while(low <= high){
-            int mid = (high + low)/2;
-            if(arr[mid] == key) return mid;
+            int mid = low + (high - low) / 2;
             
-            //find out if left is sorted or right
+            if(arr[mid] == key) return mid;
+            //find which side is sorted - right of mid OR left or mid
             
             //if left is sorted
             if(arr[low] <= arr[mid]){
-                
                 if(arr[low] <= key && key <= arr[mid]){
                     high = mid - 1;
                 }
@@ -23,7 +22,9 @@ class Solution {
                     low = mid + 1;
                 }
             }
-            else if(arr[mid] <= arr[high]){
+            
+            //if right is sorted
+            if(arr[mid] <= arr[high]){
                 if(arr[mid] <= key && key <= arr[high]){
                     low = mid + 1;
                 }
@@ -31,7 +32,6 @@ class Solution {
                     high = mid - 1;
                 }
             }
-            
         }
         return -1;
     }
