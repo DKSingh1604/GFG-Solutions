@@ -2,24 +2,24 @@ class Solution {
   public:
     vector<vector<int>> triplets(vector<int> &arr) {
         // code here
-        sort(arr.begin(), arr.end()); //nlogn
-        
+        sort(arr.begin(), arr.end());
         int n = arr.size();
         
-        vector<vector<int>> ans;
+        vector<vector<int>> res;
         
-        for(int i = 0; i < n; i++){ // n
-            if(i > 0  && arr[i] == arr[i-1]) continue;
+        for(int i = 0; i < n; i++){
+            if(i > 0 && arr[i] == arr[i-1]) continue;
             
-            int j = i + 1;
-            int k = n - 1;
+            int j = i+1;
+            int k = n-1;
             
             while(j < k){
+                
                 int sum = arr[i] + arr[j] + arr[k];
                 
                 if(sum == 0){
-                    vector<int> temp = {arr[i], arr[j], arr[k]};
-                    ans.push_back(temp);
+                    vector<int> triplet = {arr[i], arr[j], arr[k]};
+                    res.push_back(triplet);
                     
                     while(j < k && arr[j] == arr[j+1]){
                         j++;
@@ -30,14 +30,16 @@ class Solution {
                     j++;
                     k--;
                 }
-                else if (sum < 0){
+                
+                else if(sum < 0){
                     j++;
                 }
-                else {
+                else{
                     k--;
                 }
             }
+            
         }
-        return ans;
+        return res;
     }
 };
