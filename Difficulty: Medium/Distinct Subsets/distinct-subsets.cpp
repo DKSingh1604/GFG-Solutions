@@ -1,32 +1,25 @@
 class Solution {
 	public:
-	
-	set<vector<int>> mySet;
-	void solve(int i, vector<int> &arr, vector<int> &current) {
+	vector<vector<int>> ans;
+	vector<int> current;
+	void solve(int index, vector<int>& arr) {
 		
-		if (i == arr.size()) {
-			mySet.insert(current);
-			
-		}
-		else {
-			solve(i + 1, arr, current);
+		ans.push_back(current);
+		// base case
+		for (int i = index; i < arr.size(); i++) {
+			if (i > index && arr[i] == arr[i - 1]) {
+				continue;
+			}
 			current.push_back(arr[i]);
-			solve(i + 1, arr, current);
+			solve(i + 1, arr);
 			current.pop_back();
 		}
-		
-		return;
-		
 	}
 	vector<vector<int>> findSubsets(vector<int>& arr) {
 		// code here
-		mySet.clear();
+		sort(arr.begin(), arr.end()); 
+		solve(0, arr);
+		return ans;
 		
-		sort(arr.begin(), arr.end());
-		vector<int> subset;
-		
-		solve(0, arr, subset);
-		
-		return vector<vector<int>> (mySet.begin(), mySet.end()); ;
 	}
 };
